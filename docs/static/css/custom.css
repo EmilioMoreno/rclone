@@ -24,3 +24,24 @@ thead td, th {
 tbody tr:nth-child(odd) {
    background-color:#d0d0ff
 }
+
+/* Hover over links on headers */
+.header-link {
+  position: absolute;
+  left: -0.5em;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out 0.1s;
+}
+h2:hover .header-link,
+h3:hover .header-link,
+h4:hover .header-link,
+h5:hover .header-link,
+h6:hover .header-link {
+  opacity: 1;
+}
+
+/* Fix spacing between menu items */
+.navbar-default .dropdown-menu>li>a {
+  padding-top: 6px;
+  padding-bottom: 6px;
+}

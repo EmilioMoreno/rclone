@@ -1,22 +1,41 @@
-Required software for making a release
+Extra required software for making a release
   * [github-release](https://github.com/aktau/github-release) for uploading packages
-  * [gox](https://github.com/mitchellh/gox) for cross compiling
-    * Run `gox -build-toolchain`
-    * This assumes you have your own source checkout
   * pandoc for making the html and man pages
-  * errcheck - go get github.com/kisielk/errcheck
-  * golint - go get github.com/golang/lint
 
 Making a release
-  * go get -u -f -v ./...
+  * git status - make sure everything is checked in
+  * Check travis & appveyor builds are green
   * make check
-  * make test
+  * make test # see integration test server or run locally
   * make tag
   * edit docs/content/changelog.md
-  * git commit -a -v
+  * make doc
+  * git status - to check for new man pages - git add them
+  * git commit -a -v -m "Version v1.XX"
   * make retag
-  * # Set the GOPATH for a gox enabled compiler - . ~/bin/go-cross - not required for go >= 1.5
+  * make release_dep
+  * # Set the GOPATH for a current stable go compiler
   * make cross
+  * git checkout docs/content/commands # to undo date changes in commands
+  * git push --tags origin master
+  * git push --tags origin master:stable # update the stable branch for packager.io
+  * # Wait for the appveyor and travis builds to complete then fetch the windows binaries from appveyor
+  * make fetch_windows
+  * make tarball
+  * make sign_upload
+  * make check_sign
   * make upload
   * make upload_website
-  * git push --tags origin master
+  * make upload_github
+  * make startdev
+  * # announce with forum post, twitter post, G+ post
+
+Early in the next release cycle update the vendored dependencies
+  * Review any pinned packages in Gopkg.toml and remove if possible
+  * make update
+  * git status
+  * git add new files
+  * carry forward any patches to vendor stuff
+  * git commit -a -v
+
+Make the version number be just in a file?

@@ -1,41 +1,58 @@
-[![Logo](http://rclone.org/img/rclone-120x120.png)](http://rclone.org/)
+[![Logo](https://rclone.org/img/rclone-120x120.png)](https://rclone.org/)
 
-[Website](http://rclone.org) |
-[Documentation](http://rclone.org/docs/) |
-[Changelog](http://rclone.org/changelog/) |
-[Installation](http://rclone.org/install/) |
+[Website](https://rclone.org) |
+[Documentation](https://rclone.org/docs/) |
+[Contributing](CONTRIBUTING.md) |
+[Changelog](https://rclone.org/changelog/) |
+[Installation](https://rclone.org/install/) |
+[Forum](https://forum.rclone.org/)
 [G+](https://google.com/+RcloneOrg)
 
 
-[![Build Status](https://travis-ci.org/ncw/rclone.png?branch=master)](https://travis-ci.org/ncw/rclone) [![Windows Build Status](https://ci.appveyor.com/api/projects/status/github/ncw/rclone?branch=master&passingText=windows%20-%20ok&svg=true)](https://ci.appveyor.com/project/ncw/rclone) [![GoDoc](https://godoc.org/github.com/ncw/rclone?status.svg)](https://godoc.org/github.com/ncw/rclone) 
-
 Rclone is a command line program to sync files and directories to and from
 
-  * Google Drive
-  * Amazon S3
-  * Openstack Swift / Rackspace cloud files / Memset Memstore
+  * Amazon Drive
+  * Amazon S3 / Dreamhost / Ceph / Minio / Wasabi
+  * Backblaze B2
+  * Box
   * Dropbox
+  * FTP
   * Google Cloud Storage
-  * Amazon Cloud Drive
+  * Google Drive
+  * HTTP
+  * Hubic
+  * Mega
+  * Microsoft Azure Blob Storage
+  * Microsoft OneDrive
+  * OpenDrive
+  * Openstack Swift / Rackspace cloud files / Memset Memstore / OVH / Oracle Cloud Storage
+  * pCloud
+  * QingStor
+  * SFTP
+  * Webdav / Owncloud / Nextcloud
+  * Yandex Disk
   * The local filesystem
 
 Features
 
-  * MD5SUMs checked at all times for file integrity
+  * MD5/SHA1 hashes checked at all times for file integrity
   * Timestamps preserved on files
   * Partial syncs supported on a whole file basis
   * Copy mode to just copy new/changed files
-  * Sync mode to make a directory identical
-  * Check mode to check all MD5SUMs
-  * Can sync to and from network, eg two different Drive accounts
+  * Sync (one way) mode to make a directory identical
+  * Check mode to check for file hash equality
+  * Can sync to and from network, eg two different cloud accounts
+  * Optional encryption (Crypt)
+  * Optional FUSE mount
 
 See the home page for installation, usage, documentation, changelog
 and configuration walkthroughs.
 
-  * http://rclone.org/
+  * https://rclone.org/
 
 License
 -------
 
 This is free software under the terms of MIT the license (check the
 COPYING file included in this package).
+oscarg933:fuse-auto_cache
