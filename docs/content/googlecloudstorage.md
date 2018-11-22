@@ -1,7 +1,7 @@
 ---
 title: "Google Cloud Storage"
 description: "Rclone docs for Google Cloud Storage"
-date: "2015-09-12"
+date: "2017-07-18"
 ---
 
 <i class="fa fa-google"></i> Google Cloud Storage
@@ -30,64 +30,113 @@ Type of storage to configure.
 Choose a number from below, or type in your own value
  1 / Amazon Drive
    \ "amazon cloud drive"
- 2 / Amazon S3 (also Dreamhost, Ceph)
+ 2 / Amazon S3 (also Dreamhost, Ceph, Minio)
    \ "s3"
  3 / Backblaze B2
    \ "b2"
  4 / Dropbox
    \ "dropbox"
- 5 / Google Cloud Storage (this is not Google Drive)
+ 5 / Encrypt/Decrypt a remote
+   \ "crypt"
+ 6 / Google Cloud Storage (this is not Google Drive)
    \ "google cloud storage"
- 6 / Google Drive
+ 7 / Google Drive
    \ "drive"
- 7 / Hubic
+ 8 / Hubic
    \ "hubic"
- 8 / Local Disk
+ 9 / Local Disk
    \ "local"
- 9 / Microsoft OneDrive
+10 / Microsoft OneDrive
    \ "onedrive"
-10 / Openstack Swift (Rackspace Cloud Files, Memset Memstore, OVH)
+11 / Openstack Swift (Rackspace Cloud Files, Memset Memstore, OVH)
    \ "swift"
-11 / Yandex Disk
+12 / SSH/SFTP Connection
+   \ "sftp"
+13 / Yandex Disk
    \ "yandex"
-Storage> 5
+Storage> 6
 Google Application Client Id - leave blank normally.
-client_id> 
+client_id>
 Google Application Client Secret - leave blank normally.
-client_secret> 
+client_secret>
 Project number optional - needed only for list/create/delete buckets - see your developer console.
 project_number> 12345678
 Service Account Credentials JSON file path - needed only if you want use SA instead of interactive login.
-service_account_file> 
+service_account_file>
 Access Control List for new objects.
 Choose a number from below, or type in your own value
- * Object owner gets OWNER access, and all Authenticated Users get READER access.
- 1) authenticatedRead
- * Object owner gets OWNER access, and project team owners get OWNER access.
- 2) bucketOwnerFullControl
- * Object owner gets OWNER access, and project team owners get READER access.
- 3) bucketOwnerRead
- * Object owner gets OWNER access [default if left blank].
- 4) private
- * Object owner gets OWNER access, and project team members get access according to their roles.
- 5) projectPrivate
- * Object owner gets OWNER access, and all Users get READER access.
- 6) publicRead
+ 1 / Object owner gets OWNER access, and all Authenticated Users get READER access.
+   \ "authenticatedRead"
+ 2 / Object owner gets OWNER access, and project team owners get OWNER access.
+   \ "bucketOwnerFullControl"
+ 3 / Object owner gets OWNER access, and project team owners get READER access.
+   \ "bucketOwnerRead"
+ 4 / Object owner gets OWNER access [default if left blank].
+   \ "private"
+ 5 / Object owner gets OWNER access, and project team members get access according to their roles.
+   \ "projectPrivate"
+ 6 / Object owner gets OWNER access, and all Users get READER access.
+   \ "publicRead"
 object_acl> 4
 Access Control List for new buckets.
 Choose a number from below, or type in your own value
- * Project team owners get OWNER access, and all Authenticated Users get READER access.
- 1) authenticatedRead
- * Project team owners get OWNER access [default if left blank].
- 2) private
- * Project team members get access according to their roles.
- 3) projectPrivate
- * Project team owners get OWNER access, and all Users get READER access.
- 4) publicRead
- * Project team owners get OWNER access, and all Users get WRITER access.
- 5) publicReadWrite
+ 1 / Project team owners get OWNER access, and all Authenticated Users get READER access.
+   \ "authenticatedRead"
+ 2 / Project team owners get OWNER access [default if left blank].
+   \ "private"
+ 3 / Project team members get access according to their roles.
+   \ "projectPrivate"
+ 4 / Project team owners get OWNER access, and all Users get READER access.
+   \ "publicRead"
+ 5 / Project team owners get OWNER access, and all Users get WRITER access.
+   \ "publicReadWrite"
 bucket_acl> 2
-Remote config
+Location for the newly created buckets.
+Choose a number from below, or type in your own value
+ 1 / Empty for default location (US).
+   \ ""
+ 2 / Multi-regional location for Asia.
+   \ "asia"
+ 3 / Multi-regional location for Europe.
+   \ "eu"
+ 4 / Multi-regional location for United States.
+   \ "us"
+ 5 / Taiwan.
+   \ "asia-east1"
+ 6 / Tokyo.
+   \ "asia-northeast1"
+ 7 / Singapore.
+   \ "asia-southeast1"
+ 8 / Sydney.
+   \ "australia-southeast1"
+ 9 / Belgium.
+   \ "europe-west1"
+10 / London.
+   \ "europe-west2"
+11 / Iowa.
+   \ "us-central1"
+12 / South Carolina.
+   \ "us-east1"
+13 / Northern Virginia.
+   \ "us-east4"
+14 / Oregon.
+   \ "us-west1"
+location> 12
+The storage class to use when storing objects in Google Cloud Storage.
+Choose a number from below, or type in your own value
+ 1 / Default
+   \ ""
+ 2 / Multi-regional storage class
+   \ "MULTI_REGIONAL"
+ 3 / Regional storage class
+   \ "REGIONAL"
+ 4 / Nearline storage class
+   \ "NEARLINE"
+ 5 / Coldline storage class
+   \ "COLDLINE"
+ 6 / Durable reduced availability storage class
+   \ "DURABLE_REDUCED_AVAILABILITY"
+storage_class> 5
 Remote config
 Use auto config?
  * Say Y if not sure
@@ -102,8 +151,8 @@ Got code
 --------------------
 [remote]
 type = google cloud storage
-client_id = 
-client_secret = 
+client_id =
+client_secret =
 token = {"AccessToken":"xxxx.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx","RefreshToken":"x/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx_xxxxxxxxx","Expiry":"2014-07-17T20:49:14.929208288+01:00","Extra":null}
 project_number = 12345678
 object_acl = private
@@ -163,7 +212,16 @@ are what rclone will use for authentication.
 To use a Service Account instead of OAuth2 token flow, enter the path
 to your Service Account credentials at the `service_account_file`
 prompt and rclone won't use the browser based authentication
-flow.
+flow. If you'd rather stuff the contents of the credentials file into
+the rclone config file, you can set `service_account_credentials` with
+the actual contents of the file instead, or set the equivalent
+environment variable.
+
+### --fast-list ###
+
+This remote supports `--fast-list` which allows you to use fewer
+transactions in exchange for more memory. See the [rclone
+docs](/docs/#fast-list) for more details.
 
 ### Modified time ###
 
